@@ -22,6 +22,7 @@ class Fire(nn.Module):
 
 class SqueezeNet(nn.Module):
     def __init__(self, input_shape):
+        super(SqueezeNet, self).__init__()
         h, w = input_shape
         self.block_1 = nn.Sequential(
             nn.Conv2d(3, 64, 3, stride=2),
@@ -32,27 +33,27 @@ class SqueezeNet(nn.Module):
         w = (((w - 3) // 2 + 1) - 3) // 2 + 1
         self.block_2 = nn.Sequential(
             Fire(64, 16, 16),
-            Fire(16, 16, 16),
+            Fire(32, 16, 16),
             nn.MaxPool2d(3, 2)
         )
         h = (h - 3) // 2 + 1
         w = (w - 3) // 2 + 1
         self.block_3 = nn.Sequential(
-            Fire(16, 32, 32),
             Fire(32, 32, 32),
+            Fire(64, 32, 32),
             nn.MaxPool2d(3, 2)
         )
         h = (h - 3) // 2 + 1
         w = (w - 3) // 2 + 1
         self.block_4 = nn.Sequential(
-            Fire(32, 48, 48),
-            Fire(48, 48, 48),
-            Fire(48, 64, 64),
-            Fire(64, 64, 64),
+            Fire(64, 48, 48),
+            Fire(96, 48, 48),
+            Fire(96, 64, 64),
+            Fire(128, 64, 64),
             nn.Dropout2d(0.5)
         )
         self.block_5 = nn.Sequential(
-            nn.Conv2d(64, 5, 1),
+            nn.Conv2d(128, 5, 1),
             nn.ReLU(),
         )
 

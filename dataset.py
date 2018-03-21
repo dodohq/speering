@@ -18,7 +18,7 @@ class DrivingSet(Dataset):
                 if line.split(',')[0] == 'center':
                     continue
                 self.files_list.append(join(self.root_dir, line.split(' ')[0]))
-                self.angles.append(line.split(' ')[1].strip())
+                self.angles.append(float(line.split(' ')[1].strip()))
         train_files, valid_files, train_angles, valid_angles = train_test_split(
             self.files_list, self.angles, test_size=0.1, random_state=100)
         self.files_list = train_files if training else valid_files
@@ -34,6 +34,7 @@ class DrivingSet(Dataset):
     def __getitem__(self, idx):
         img = imread(self.files_list[idx])
         img = self.crop_sky(img)
+        img = img.transpose(2, 0, 1)
         if self.transform != None:
             img = self.transform(img)
         angle = self.angles[idx]
