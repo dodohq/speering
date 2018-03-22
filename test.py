@@ -60,15 +60,16 @@ for c in test_cases:
         image = image.cuda()
         label = label.cuda()
 
-    images.append(image)
-    labels.append(label)
-    output = net(image)
-    outputs.append(output)
+    images.append(image.data[0].numpy().transpose(1, 2, 0))
+    labels.append(label.data[0].numpy()[0])
+    output = net(image).data[0].numpy()
+    outputs.append(output[0])
 
-f, axarr = plt.subplots(ncols=len(images))
+f, axarr = plt.subplots(nrows=1, ncols=len(images))
 for i in range(len(images)):
     axarr[i].axis('off')
-    axarr.title('Output: {0} Label: {1}'.format(outputs[i], labels[i]))
-    axarr.imshow(images[i])
+    axarr[i].set_title('Output: %.2f Label: %2f' %
+                       (outputs[i], labels[i]), fontsize=7)
+    axarr[i].imshow(images[i]/255)
 
 plt.show()
