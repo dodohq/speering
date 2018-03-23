@@ -5,11 +5,12 @@ import sys
 import os
 import getopt
 
-from speering import SqueezeNet
+sys.path.append('..')
+from model import SqueezeNet
 import dataset
 
 train_dataset = dataset.DrivingSet(
-    root='./data/driving_dataset', training=True)
+    root='../data/driving_dataset', training=True)
 
 continue_training = False
 location = 'cpu'
@@ -66,7 +67,7 @@ for epoch in range(num_epochs):
         optimizer.step()
 
         print('Iter [%d/%d] Loss: %.4f' %
-          (i+1, len(train_dataset)//batch_size, loss.data[0]))
+              (i+1, len(train_dataset)//batch_size, loss.data[0]))
         if (i+1) % 100 == 0:
             print('Epoch [%d/%d], Iter [%d/%d] Loss: %.4f'
                   % (epoch+1, num_epochs, i+1, len(train_dataset)//batch_size, loss.data[0]))

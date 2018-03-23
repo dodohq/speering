@@ -7,11 +7,12 @@ from torch.autograd import Variable
 import matplotlib.pyplot as plt
 import getopt
 
+sys.path.append('..')
 import dataset
-from speering import SqueezeNet
+from model import SqueezeNet
 
 test_dataset = dataset.DrivingSet(
-    root='./data/driving_dataset', training=False)
+    root='../data/driving_dataset', training=False)
 
 batch_size = 100
 location = 'cpu'
