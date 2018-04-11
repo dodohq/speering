@@ -75,4 +75,4 @@ for epoch in range(num_epochs):
     # lr decay
     # learning_rate /= 10
     optimizer = torch.optim.Adam(net.parameters(), lr=learning_rate)
-    torch.save(net.state_dict(), 'squeeze_net.pkl')
+    torch.save(net.state_dict(), 'nvidia_net.pkl')

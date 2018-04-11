@@ -1,5 +1,6 @@
 import torch
 import torch.nn as nn
+from torchvision.transforms import Resize, ToPILImage, Compose, ToTensor
 import numpy as np
 import sys
 import os
@@ -11,8 +12,9 @@ sys.path.append('..')
 import dataset
 from model import NvidiaNet
 
-test_dataset = dataset.DrivingSet(
-    root='../data/driving_dataset', training=False)
+# test_dataset = dataset.DrivingSet(
+#     root='../data/driving_dataset', training=False)
+test_dataset = dataset.DodoSet(root='../data/sutdpavement')
 
 batch_size = 100
 location = 'cpu'
@@ -71,6 +73,6 @@ for i in range(len(images)):
     axarr[i].axis('off')
     axarr[i].set_title('Output: %.2f Label: %2f' %
                        (outputs[i], labels[i]), fontsize=7)
-    axarr[i].imshow(images[i]/255)
+    axarr[i].imshow(images[i])
 
 plt.show()

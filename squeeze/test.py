@@ -11,8 +11,11 @@ sys.path.append('..')
 import dataset
 from model import SqueezeNet
 
-test_dataset = dataset.DrivingSet(
-    root='../data/driving_dataset', training=False)
+# test_dataset = dataset.DrivingSet(
+# root='../data/driving_dataset', training=False)
+# test_dataset = dataset.DodoSet(root='../data/sutdpavement')
+test_dataset = dataset.DodoSet(root='../data/driving')
+
 
 batch_size = 100
 location = 'cpu'
