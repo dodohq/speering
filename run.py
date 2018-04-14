@@ -2,7 +2,7 @@ import torch
 from torch.autograd import Variable
 import getopt
 import sys
-from cv2 import VideoCapture, waitKey, imshow, getRotationMatrix2D, warpAffine, destroyAllWindows, imread
+from cv2 import VideoCapture, waitKey, imshow, getRotationMatrix2D, warpAffine, destroyAllWindows, imread, moveWindow
 from scipy.misc import imresize
 from os.path import isfile
 import numpy as np
@@ -47,13 +47,15 @@ while waitKey(10) != ord('q'):
     deg = net(Variable(torch.from_numpy(img.transpose(
         2, 0, 1).reshape((1, 3, 196, 455))).float())).data[0].numpy()[0]
     print('Predicted angle:', str(deg), 'degrees')
-    imshow('frame', img)
 
     smoothed_angle += 0.2 * pow(abs((deg - smoothed_angle)), 2.0 / 3.0) * (
         deg - smoothed_angle) / abs(deg - smoothed_angle)
     M = getRotationMatrix2D((cols/2, rows/2), -smoothed_angle, 1)
     dst = warpAffine(steer_wheel, M, (cols, rows))
     imshow('wheel', dst)
+    moveWindow('wheel', 700, 300)
+    imshow('frame', img)
+    moveWindow('frame', 700, 80)
 
 cap.release()
 destroyAllWindows()
